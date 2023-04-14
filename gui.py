@@ -17,6 +17,9 @@ class Draw():
         
         self.dronecount=StringVar()
         self.coordinateplane=StringVar()
+        self.click_num=0
+        self.x1,self.y1=0,0
+        self.x2,self.y2=0,0
 
         text=Text(root)
         text.tag_configure("Head_Label", justify='center', font=('arial',25),background='black',foreground='white')
@@ -72,14 +75,28 @@ class Draw():
         self.coordinateplaneEntry=Entry(self.root,textvariable=self.coordinateplane)
         self.coordinateplaneEntry.place(x=350,y=605)
 
-        self.background.bind("<B1-Motion>",self.paint) 
+        self.background.bind('<Button-1>', self.draw_line) 
 
     def paint(self,event):       
         x1,y1 = (event.x-2), (event.y-2)  
         x2,y2 = (event.x+2), (event.y+2)  
 
         self.background.create_oval(x1,y1,x2,y2,fill=self.pointer,outline=self.pointer,width=self.pointer_size.get())
- 
+
+    # Define a function to draw the line between two points
+
+    def draw_line(self,event):
+        if self.click_num%2==0:
+            self.x1=event.x
+            self.y1=event.y
+            self.click_num+=1
+        else:
+            self.x2=event.x
+            self.y2=event.y
+            self.click_num+=1
+        # Draw the line in the given co-ordinates
+            self.background.create_line(self.x1,self.y1,self.x2,self.y2, fill=self.pointer, width=self.pointer_size.get())
+    
     def select_color(self,col):
         self.pointer = col
 
