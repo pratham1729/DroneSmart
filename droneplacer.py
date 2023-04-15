@@ -1,7 +1,6 @@
 import numpy as np
 from tkinter import filedialog
 import cv2 as cv
-import os
 import math
 
 def distance(pt1, pt2):
@@ -55,7 +54,6 @@ def analyse(filename,dronecount,coordinateplane):
         intermediate.insert(index,0)
         final.append(intermediate)
 
-    os.remove(filename)
     file_text =filedialog.asksaveasfilename(defaultextension='txt')
     with open(file_text,"w") as f:
         for i in final:

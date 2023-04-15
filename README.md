@@ -27,5 +27,10 @@ DroneSmart is an application written in `Python`, using **Tkinter** library for 
     ```sh
     python3 gui.py
     ```
-    
-    
+### How to Use?
+
+1) Draw the required pattern, enter the number of drones and the plane in which you want to align your drones.
+
+2) Navigate to the location from where the screenshot will be saved, and enter the filename for your screenshot. 
+
+3) Enter the file name for your textfile of coordinates. 
