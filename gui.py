@@ -20,6 +20,8 @@ class Draw():
         self.click_num=0
         self.x1,self.y1=0,0
         self.x2,self.y2=0,0
+        self.line=IntVar()
+        self.freehand=IntVar()
 
         text=Text(root)
         text.tag_configure("Head_Label", justify='center', font=('arial',25),background='black',foreground='white')
@@ -75,8 +77,32 @@ class Draw():
         self.coordinateplaneEntry=Entry(self.root,textvariable=self.coordinateplane)
         self.coordinateplaneEntry.place(x=350,y=605)
 
-        self.background.bind('<Button-1>', self.draw_line) 
+        self.linebutton = Checkbutton(root, text = "Lines", 
+                      variable = self.line,
+                      onvalue = 1,
+                      offvalue = 0,
+                      height = 1,
+                      width = 6,
+                      command=self.toggle)
+        
+        self.freehandbutton = Checkbutton(root, text = "Freehand", 
+                      variable = self.freehand,
+                      onvalue = 1,
+                      offvalue = 0,
+                      height = 1,
+                      width = 8,
+                      command=self.toggle)
+        self.linebutton.place(x=350,y=530)
+        self.freehandbutton.place(x=450,y=530)
 
+    def toggle(self):
+        if self.line.get():
+            self.background.bind('<Button-1>', self.draw_line)
+        elif self.freehand.get():
+            self.background.bind('<B1-Motion>', self.paint)
+            self.click_num=0
+            self.x1,self.y1=0,0
+            self.x2,self.y2=0,0 
     def paint(self,event):       
         x1,y1 = (event.x-2), (event.y-2)  
         x2,y2 = (event.x+2), (event.y+2)  
@@ -96,7 +122,8 @@ class Draw():
             self.click_num+=1
         # Draw the line in the given co-ordinates
             self.background.create_line(self.x1,self.y1,self.x2,self.y2, fill=self.pointer, width=self.pointer_size.get())
-    
+
+
     def select_color(self,col):
         self.pointer = col
 

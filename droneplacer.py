@@ -13,15 +13,10 @@ def analyse(filename,dronecount,coordinateplane):
     img = cv.imread(filename)
     gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
     bi = cv.bilateralFilter(gray, 5, 75, 75)
-    # cv.imshow('bi',bi)
     dst = cv.cornerHarris(bi, 2, 3, 0.04)
     mask = np.zeros_like(gray)
     mask[dst>0.01*dst.max()] = 255
-    # cv.imshow('mask', mask)
-    # cv.waitKey()
-    img[dst > 0.01 * dst.max()] = [0, 0, 255]   #--- [0, 0, 255] --> Red ---
-    # cv.imshow('dst', img)
-    # cv.waitKey()
+    img[dst > 0.01 * dst.max()] = [0, 0, 255]
     coor = np.argwhere(mask)
     coor_list = [l.tolist() for l in list(coor)]
     coor_tuples = [tuple(l) for l in coor_list]
@@ -48,9 +43,9 @@ def analyse(filename,dronecount,coordinateplane):
         else:
             break
     index=2
-    if coordinateplane=="yz":
+    if coordinateplane in ("yz","yz"):
         index=0
-    elif coordinateplane=="xz":
+    elif coordinateplane in ("xz","zx"):
         index=1    
     
     final=[]
@@ -65,5 +60,3 @@ def analyse(filename,dronecount,coordinateplane):
     with open(file_text,"w") as f:
         for i in final:
             f.write(str(i[0])+','+str(i[1])+','+str(i[2])+'\n')
-
-analyse("./test10.jpg", 15, "xy")
