@@ -24,7 +24,7 @@ def analyse(filename,dronecount,coordinateplane):
     prev=0
 
     coor_temp=[]
-    print(type(coor_tuples))
+    
     for i in coor_tuples:
         if i[1]==799:
             continue
