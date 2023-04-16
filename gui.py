@@ -48,7 +48,9 @@ class Draw():
 
         self.clearScreen= Button(self.root,text="Clear Screen",bd=4,bg='white',command= lambda : self.background.delete('all'),width=9,relief=RIDGE)
         self.clearScreen.place(x=250,y=650)
-
+        
+        self.clearScreen= Button(self.root,text="Import",bd=4,bg='white',command= self.importimage ,width=7,relief=RIDGE)
+        self.clearScreen.place(x=300,y=650)
 
         self.saveImage= Button(self.root,text="Analyse",bd=4,bg='white',command=self.screenshot,width=9,relief=RIDGE)
         self.saveImage.place(x=450,y=650)
@@ -149,6 +151,10 @@ class Draw():
             print("Error in saving the screenshot for analysis")
         
         analyse(file_ss, int(self.dronecount.get()), self.coordinateplane.get())
+
+    def importimage(self):
+        file_path=filedialog.askopenfilename()
+        analyse(file_path,int(self.dronecount.get()),self.coordinateplane.get())
 
 if __name__ =="__main__":
     root=Tk()

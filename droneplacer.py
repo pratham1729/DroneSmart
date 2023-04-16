@@ -59,7 +59,7 @@ def analyse(filename,dronecount,coordinateplane):
     final=[]
     finalx=[]
     for i in coor_temp:
-        intr=(i[1],i[0])
+        intr=(i[1],800-i[0])
         finalx.append(intr)
 
     zip(*finalx)
@@ -67,7 +67,7 @@ def analyse(filename,dronecount,coordinateplane):
     plt.show()
     for i in coor_temp:
         intermediate=list(i)
-        intermediate[0],intermediate[1]=intermediate[1],intermediate[0]
+        intermediate[0],intermediate[1]=intermediate[1],800-intermediate[0]
         intermediate.insert(index,0)
         final.append(intermediate)
 
