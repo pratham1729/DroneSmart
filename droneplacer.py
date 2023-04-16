@@ -2,6 +2,7 @@ import numpy as np
 from tkinter import filedialog
 import cv2 as cv
 import math
+import matplotlib.pyplot as plt
 
 def distance(pt1, pt2):
     (x1, y1), (x2, y2) = pt1, pt2
@@ -19,24 +20,32 @@ def analyse(filename,dronecount,coordinateplane):
     coor = np.argwhere(mask)
     coor_list = [l.tolist() for l in list(coor)]
     coor_tuples = [tuple(l) for l in coor_list]
-    original=coor_tuples.copy()
     thresh = 100
     prev=0
 
+    coor_temp=[]
+    print(type(coor_tuples))
+    for i in coor_tuples:
+        if i[1]==799:
+            continue
+        else:
+            coor_temp.append(i)
+    
+    original=coor_temp.copy()
     while True:
-        coor_tuples_copy = coor_tuples
+        coor_tuples_copy = coor_temp
         i = 1    
-        for pt1 in coor_tuples:
-            for pt2 in coor_tuples[i::1]:
+        for pt1 in coor_temp:
+            for pt2 in coor_temp[i::1]:
                 if(distance(pt1, pt2) < thresh):
                     coor_tuples_copy.remove(pt2)      
             i+=1
-        if len(coor_tuples) > dronecount:
+        if len(coor_temp) > dronecount:
             prev=thresh
             thresh*=2
         
-        elif len(coor_tuples) < dronecount:
-            coor_tuples=original.copy()
+        elif len(coor_temp) < dronecount:
+            coor_temp=original.copy()
             thresh=(prev+thresh)/2
         
         else:
@@ -46,11 +55,19 @@ def analyse(filename,dronecount,coordinateplane):
         index=0
     elif coordinateplane in ("xz","zx"):
         index=1    
-    
-    final=[]
 
-    for i in coor_tuples:
+    final=[]
+    finalx=[]
+    for i in coor_temp:
+        intr=(i[1],i[0])
+        finalx.append(intr)
+
+    zip(*finalx)
+    plt.scatter(*zip(*finalx))
+    plt.show()
+    for i in coor_temp:
         intermediate=list(i)
+        intermediate[0],intermediate[1]=intermediate[1],intermediate[0]
         intermediate.insert(index,0)
         final.append(intermediate)
 
